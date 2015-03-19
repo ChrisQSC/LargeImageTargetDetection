@@ -67,12 +67,30 @@ public class FilePackage {
 			{
 				if(allSize==0||allSize+file.length()>66000000)
 				{
-					System.out.print("New Block Added.\n");
-					allSize = 0;
-					tag+=1;
-					seqFile = new Path(outputPath+"/"+setName+"_"+String.valueOf(tag)+".seq");
-					if(writer!=null) IOUtils.closeStream(writer);
-					writer=new SequenceFile.Writer(fs,conf,seqFile,Text.class,BytesWritable.class);
+					if(file.length()>66000000)
+					{
+						System.out.print("New Block Added.\n");
+						allSize = 0;
+						tag+=1;
+						seqFile = new Path(outputPath+"/"+setName+"_"+String.valueOf(tag)+".seq");
+						SequenceFile.Writer hugeImgWriter = new SequenceFile.Writer(fs,conf,seqFile,Text.class,ResultPair.class);
+						ImageSplitFactory factory  = new ImageSplitFactory(inputPath);
+						ResultPair temp;
+						while((temp = factory.GetNextSplit())!=null)
+						{
+							hugeImgWriter.append(new Text(file.getName()), temp);
+						}
+						hugeImgWriter.close();
+					}
+					else
+					{
+						System.out.print("New Block Added.\n");
+						allSize = 0;
+						tag+=1;
+						seqFile = new Path(outputPath+"/"+setName+"_"+String.valueOf(tag)+".seq");
+						if(writer!=null) IOUtils.closeStream(writer);
+						writer=new SequenceFile.Writer(fs,conf,seqFile,Text.class,BytesWritable.class);
+					}
 				}
 				
 				byte[] tmp = new byte[(int) file.length()];
