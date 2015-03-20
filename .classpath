@@ -53,5 +53,10 @@
 	<classpathentry kind="lib" path="/home/littlekkk/hadoop-1.2.1/hadoop-ant-1.2.1.jar"/>
 	<classpathentry kind="lib" path="/home/littlekkk/hadoop-1.2.1/hadoop-tools-1.2.1.jar"/>
 	<classpathentry kind="lib" path="libs/opencv/opencv-2410.jar"/>
+	<classpathentry kind="lib" path="libs/jai/clibwrapper_jiio.jar"/>
+	<classpathentry kind="lib" path="libs/jai/jai_codec.jar"/>
+	<classpathentry kind="lib" path="libs/jai/jai_core.jar"/>
+	<classpathentry kind="lib" path="libs/jai/jai_imageio.jar"/>
+	<classpathentry kind="lib" path="libs/jai/mlibwrapper_jai.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

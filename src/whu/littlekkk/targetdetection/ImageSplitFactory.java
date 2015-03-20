@@ -3,9 +3,6 @@ package whu.littlekkk.targetdetection;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import javax.imageio.ImageIO;
 
 import org.apache.hadoop.fs.Path;
@@ -13,10 +10,6 @@ import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Text;
 
 
-/*
- * * ͼƬ�и���
- * *
- */
 public class ImageSplitFactory {
 	
 	public int splitWidth = 1000;

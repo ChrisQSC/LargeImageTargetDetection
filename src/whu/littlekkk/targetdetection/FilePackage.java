@@ -22,7 +22,7 @@ public class FilePackage {
 		public boolean accept(File file, String filename) {
 			// TODO Auto-generated method stub
 			String ext = getExtensionName(filename.toLowerCase());
-			if(ext.equals("bmp")||ext.equals("jpg")||ext.equals("jpeg"))
+			if(ext.equals("bmp")||ext.equals("jpg")||ext.equals("jpeg")||ext.equals("tif"))
 				return true;
 			return false;
 		}
@@ -74,7 +74,7 @@ public class FilePackage {
 						tag+=1;
 						seqFile = new Path(outputPath+"/"+setName+"_"+String.valueOf(tag)+".seq");
 						SequenceFile.Writer hugeImgWriter = new SequenceFile.Writer(fs,conf,seqFile,Text.class,ResultPair.class);
-						ImageSplitFactory factory  = new ImageSplitFactory(inputPath);
+						ImageSplitFactory factory  = new ImageSplitFactory(file.getPath());
 						ResultPair temp;
 						while((temp = factory.GetNextSplit())!=null)
 						{
