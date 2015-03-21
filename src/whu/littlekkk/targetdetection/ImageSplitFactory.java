@@ -16,7 +16,7 @@ public class ImageSplitFactory {
 	
 	public int splitWidth = 1000;
 	public int splitHeight = 1000;
-	public double overlap = 0.1;
+	public double overlap = 0.2;
 	
 	private int currentX = 0;
 	private int currentY = 0;
@@ -58,10 +58,6 @@ public class ImageSplitFactory {
 		
 		int offsetX = new Double(currentX*splitWidth).intValue();
 		int offsetY = new Double(currentY*splitHeight).intValue();
-		System.out.println(totalY);
-		System.out.println(currentY);
-		System.out.println( totalX-1>currentX?new Double(splitWidth*(1+overlap)).intValue():splitWidth);
-		System.out.println( totalY-1>currentY?new Double(splitHeight*(1+overlap)).intValue():splitHeight);
 		BufferedImage temp= this.src.getSubimage(offsetX,offsetY, totalX-1>currentX?new Double(splitWidth*(1+overlap)).intValue():splitWidth,totalY-1>currentY?new Double(splitHeight*(1+overlap)).intValue():splitHeight);
 		ResultPair split = new ResultPair(new Text(this.fileName),new BytesWritable(imageToByte(temp,"BMP")));
 		split.isSlice = true;
@@ -74,6 +70,9 @@ public class ImageSplitFactory {
 			currentX=0;
 			currentY++;
 		}
+		split.isSlice = true;
+		split.width = this.width;
+		split.height = this.height;
 		return split;
 	}
 	

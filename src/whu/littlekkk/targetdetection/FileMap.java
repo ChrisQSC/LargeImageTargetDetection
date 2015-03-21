@@ -16,17 +16,18 @@ public class FileMap extends Mapper<IntWritable, ResultPair, IntWritable, Result
 		// TODO Auto-generated method stub
 		
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
-		System.out.println("map");
 		MatOfByte newMat = new MatOfByte(value.value.getBytes());
 		Mat image = Highgui.imdecode(newMat, Highgui.CV_LOAD_IMAGE_COLOR );
-		image.channels();
 		Mat result = FTSaliencyRegionDetection.GetSaliencyMap(image,true);
 		MatOfByte mat =new MatOfByte();
 		Highgui.imencode(".bmp",result, mat);
 	    byte[] byteArray = mat.toArray();
 	    value.value.set(byteArray, 0,byteArray.length );
-	    context.write(key, value);
-	    System.out.println(value.key.toString()+"processed");
+	    if(value.isSlice)
+	    	context.write(new IntWritable(value.key.hashCode()), value);
+	    else
+	    	context.write(key, value);
+	    System.out.println(value.key.toString()+" processed");
 	}
 	
 }

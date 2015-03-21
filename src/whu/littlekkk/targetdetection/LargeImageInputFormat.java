@@ -41,8 +41,6 @@ public class LargeImageInputFormat extends InputFormat<IntWritable, ResultPair> 
 	@Override
 	public List<InputSplit> getSplits(JobContext job) throws IOException {
 		// TODO Auto-generated method stub
-
-		System.out.println("1");
 		try
 		{
 			int id = 0;

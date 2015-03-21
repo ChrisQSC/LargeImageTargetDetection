@@ -2,10 +2,8 @@ package whu.littlekkk.targetdetection;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
-import java.io.DataOutput;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.net.URI;
@@ -21,8 +19,6 @@ import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.IOUtils;
 import org.apache.hadoop.io.SequenceFile;
 import org.apache.hadoop.io.Text;
-
-import whu.littlekkk.targetdetection.LargeImageInputFormat.SeqFileFilter;
 
 public class FilePackage {
 
@@ -179,6 +175,7 @@ public class FilePackage {
 					BufferedImage image = ImageIO.read(in); 
 					ImageIO.write(image, "BMP", outFile);
 				}
+				reader.close();
 			}
 		} catch (IOException | URISyntaxException e) {
 			// TODO Auto-generated catch block

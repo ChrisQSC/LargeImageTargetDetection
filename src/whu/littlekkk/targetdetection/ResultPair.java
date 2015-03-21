@@ -15,6 +15,8 @@ public class ResultPair implements Writable {
 	public boolean isSlice;
 	public int offsetX;
 	public int offsetY;
+	public int width;
+	public int height;
 	
 	public ResultPair(Text key, BytesWritable value)
 	{
@@ -23,40 +25,50 @@ public class ResultPair implements Writable {
 		isSlice = false;
 		offsetX = 0;
 		offsetY = 0;
+		width = 0;
+		height = 0;
 	}
 	
 	public ResultPair()
 	{
-		key = null;
-		value = null;
+		key = new Text();
+		value = new BytesWritable();
 		isSlice = false;
 		offsetX = 0;
 		offsetY = 0;
+		width = 0;
+		height = 0;
 	}
 	
 	@Override
 	public void readFields(DataInput in) throws IOException {
 		// TODO Auto-generated method stub
+
+		isSlice = in.readBoolean();
+		offsetX = in.readInt();
+		offsetY = in.readInt();
+		width = in.readInt();
+		height = in.readInt();
 		key = new Text(in.readLine());
 		int length = in.readInt();
 		byte[] tmp = new byte[length];
 		in.readFully(tmp, 0, length);
 		value = new BytesWritable(tmp);
-		isSlice = in.readBoolean();
-		offsetX = in.readInt();
-		offsetY = in.readInt();
 		
 	}
 
 	@Override
 	public void write(DataOutput out) throws IOException {
 		// TODO Auto-generated method stub
-		out.writeBytes(key.toString()+"\n");
-		out.writeInt(value.getLength());
-		out.write(value.getBytes());
+
 		out.writeBoolean(isSlice);
 		out.writeInt(offsetX);
 		out.writeInt(offsetY);
+		out.writeInt(width);
+		out.writeInt(height);
+		out.writeBytes(key.toString()+"\n");
+		out.writeInt(value.getLength());
+		out.write(value.getBytes());
 	}
 
 }
