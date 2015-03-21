@@ -22,7 +22,7 @@ public class FileMap extends Mapper<IntWritable, ResultPair, IntWritable, Result
 		image.channels();
 		Mat result = FTSaliencyRegionDetection.GetSaliencyMap(image,true);
 		MatOfByte mat =new MatOfByte();
-		Highgui.imencode(".jpg",result, mat);
+		Highgui.imencode(".bmp",result, mat);
 	    byte[] byteArray = mat.toArray();
 	    value.value.set(byteArray, 0,byteArray.length );
 	    context.write(key, value);

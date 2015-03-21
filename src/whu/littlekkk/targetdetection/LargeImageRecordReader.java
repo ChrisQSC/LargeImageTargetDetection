@@ -24,7 +24,7 @@ public class LargeImageRecordReader extends RecordReader<IntWritable, ResultPair
 	int id = 0;
 	Text key = new Text();
 	BytesWritable value = new BytesWritable();
-	ResultPair sliceValue;
+	ResultPair sliceValue = new ResultPair();
 	
 	
 	@Override
@@ -43,7 +43,7 @@ public class LargeImageRecordReader extends RecordReader<IntWritable, ResultPair
 	public ResultPair getCurrentValue() throws IOException,
 			InterruptedException {
 		// TODO Auto-generated method stub
-		if(reader.getValueClass().equals(BytesWritable.class))
+		if(reader.getValueClass().equals(ResultPair.class))
 		{
 			bytesRead += sliceValue.value.getLength();
 			return sliceValue;

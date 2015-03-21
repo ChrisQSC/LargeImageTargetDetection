@@ -17,6 +17,11 @@ public class MainProgram {
 			ImageTargetDetection task = new ImageTargetDetection();
 			task.processLargeImage(args[1],args[2]);
 		}
+		if(cmd.equals("unpackage"))
+		{
+			FilePackage task = new FilePackage();
+			task.Unpackage(args[1],args[2]);
+		}
 	}
 
 }

@@ -10,6 +10,8 @@ import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.Text;
 
 
+
+
 public class ImageSplitFactory {
 	
 	public int splitWidth = 1000;
@@ -22,6 +24,8 @@ public class ImageSplitFactory {
 	private int totalX = 0;
 	private int totalY = 0;
 	
+	private int width = 0;
+	private int height = 0;
 	private BufferedImage src;
 	
 	private String fileName;
@@ -34,9 +38,10 @@ public class ImageSplitFactory {
 			this.fileName = new Path(path).getName();
 			this.totalX = this.src.getWidth()/this.splitWidth+1;
 			this.totalY = this.src.getHeight()/this.splitHeight+1;
-		
-			this.splitHeight = this.src.getHeight()/this.totalX;
-			this.splitWidth = this.src.getWidth()/this.totalY;
+			this.width = this.src.getWidth();
+			this.height = this.src.getHeight();
+			this.splitHeight = this.src.getHeight()/this.totalY;
+			this.splitWidth = this.src.getWidth()/this.totalX;
 			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -46,20 +51,28 @@ public class ImageSplitFactory {
 	
 	public ResultPair GetNextSplit()
 	{
-		int offsetX = new Double(currentX*splitWidth*(1+overlap)).intValue();
-		int offsetY = new Double(currentY*splitHeight*(1+overlap)).intValue();
-		BufferedImage temp= this.src.getSubimage(offsetX,offsetY, splitWidth, splitHeight);
-		ResultPair split = new ResultPair(new Text(this.fileName),new BytesWritable(imageToByte(temp,"JPEG")));
+		if(totalY == currentY)
+		{
+			return null;
+		}
+		
+		int offsetX = new Double(currentX*splitWidth).intValue();
+		int offsetY = new Double(currentY*splitHeight).intValue();
+		System.out.println(totalY);
+		System.out.println(currentY);
+		System.out.println( totalX-1>currentX?new Double(splitWidth*(1+overlap)).intValue():splitWidth);
+		System.out.println( totalY-1>currentY?new Double(splitHeight*(1+overlap)).intValue():splitHeight);
+		BufferedImage temp= this.src.getSubimage(offsetX,offsetY, totalX-1>currentX?new Double(splitWidth*(1+overlap)).intValue():splitWidth,totalY-1>currentY?new Double(splitHeight*(1+overlap)).intValue():splitHeight);
+		ResultPair split = new ResultPair(new Text(this.fileName),new BytesWritable(imageToByte(temp,"BMP")));
 		split.isSlice = true;
 		split.offsetX = offsetX;
 		split.offsetY = offsetY;
-		if(totalX >= currentX++)
+		
+		currentX++;
+		if(currentX >= totalX)
 		{
 			currentX=0;
-			if(totalY >= currentY++)
-			{
-				return null;
-			}
+			currentY++;
 		}
 		return split;
 	}
