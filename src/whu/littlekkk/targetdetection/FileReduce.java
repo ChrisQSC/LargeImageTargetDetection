@@ -11,7 +11,6 @@ import javax.imageio.ImageIO;
 
 import org.apache.hadoop.io.BytesWritable;
 import org.apache.hadoop.io.IntWritable;
-import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 import whu.littlekkk.targetdetection.ResultPair;
 

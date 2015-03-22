@@ -76,21 +76,29 @@ public class FilePackage {
 			{
 				if(allSize==0||allSize+file.length()>66000000)
 				{
-					if(file.length()>66000000)
+					if(file.length()>40000000)
 					{
-						System.out.print("New Block Added.\n");
-						allSize = 0;
-						tag+=1;
-						seqFile = new Path(outputPath+"/"+setName+"_"+String.valueOf(tag)+".seq");
-						SequenceFile.Writer hugeImgWriter = new SequenceFile.Writer(fs,conf,seqFile,Text.class,ResultPair.class);
 						ImageSplitFactory factory  = new ImageSplitFactory(file.getPath());
 						ResultPair temp;
+						int singleFileRead = 0;
+						SequenceFile.Writer hugeImgWriter = null;
 						while((temp = factory.GetNextSplit())!=null)
 						{
+							if(singleFileRead == 0||singleFileRead > 40000000)
+							{
+								System.out.print("New Block Added.\n");
+								allSize = 0;
+								tag+=1;
+								seqFile = new Path(outputPath+"/"+setName+"_"+String.valueOf(tag)+".seq");
+								if(hugeImgWriter!=null) hugeImgWriter.close();
+								hugeImgWriter = new SequenceFile.Writer(fs,conf,seqFile,Text.class,ResultPair.class);
+								singleFileRead = 0;
+							}
 							File mfile = new File("/home/littlekkk/24/result/"+count+".bmp");
 							ByteArrayInputStream in = new ByteArrayInputStream(temp.value.getBytes());    //将b作为输入流；
 							BufferedImage image = ImageIO.read(in); 
 							ImageIO.write(image, "BMP", mfile);
+							singleFileRead+= temp.value.getLength();
 							count++;
 							hugeImgWriter.append(new Text(file.getName()), temp);
 						}

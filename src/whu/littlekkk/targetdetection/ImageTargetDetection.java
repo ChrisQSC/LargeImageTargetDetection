@@ -24,7 +24,9 @@ public class ImageTargetDetection {
 			    URI dependencePath = new URI("hdfs://"+tmp.getHost()+":"+String.valueOf(tmp.getPort())+"/dependence/imagedetection.jar#dependence");
 				DistributedCache.addCacheArchive(dependencePath, conf);
 			    Job job = new Job(conf,"Image Target Detection");
+			    /*
 			    job.getConfiguration().set("java.library.path","./dependence");
+			    */
 			    job.getConfiguration().set("mapred.output.dir", outputPath);
 				job.setInputFormatClass(LargeImageInputFormat.class);
 				job.setOutputFormatClass(LargeImageOutputFormat.class);

@@ -14,7 +14,6 @@ public class FileMap extends Mapper<IntWritable, ResultPair, IntWritable, Result
 	protected void map(IntWritable key, ResultPair value, Context context)
 			throws IOException, InterruptedException {
 		// TODO Auto-generated method stub
-		
 		System.loadLibrary(Core.NATIVE_LIBRARY_NAME);
 		MatOfByte newMat = new MatOfByte(value.value.getBytes());
 		Mat image = Highgui.imdecode(newMat, Highgui.CV_LOAD_IMAGE_COLOR );
